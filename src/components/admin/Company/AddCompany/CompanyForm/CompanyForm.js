@@ -6,13 +6,16 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { BeatLoader } from 'react-spinners';
 import 'suneditor/dist/css/suneditor.min.css';
+import Cookies from 'universal-cookie';
 import { setCountries } from '../../../../../../store/countries/actions';
 import { authPost, getData } from './../../../../../../__lib__/helpers/HttpService';
+
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
     ssr: false,
 })
 const CompanyForm = () => {
+    const cookies = new Cookies();
     const [disable, setDisable] = useState(false)
     const [loading, setLoading] = useState(true);
     const [color, setColor] = useState("#ffffff");
@@ -21,7 +24,7 @@ const CompanyForm = () => {
     const { admins, countries } = useSelector(state => state)
     const dispatch = useDispatch()
     const { register, watch, handleSubmit, formState: { errors }, reset } = useForm()
-
+    // console.log(cookies.get('_token'))
     const { countryList, isLoading } = countries
 
     useEffect(() => {
@@ -66,7 +69,7 @@ const CompanyForm = () => {
 
     const submitData = async data => {
         setDisable(true)
-        authPost('/company', data, admins.token)
+        authPost('/company', data, cookies.get('_token'))
             .then(res => {
                 if (res.success) {
                     toast.success(res.message)

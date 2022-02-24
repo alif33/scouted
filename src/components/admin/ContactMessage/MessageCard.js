@@ -3,18 +3,18 @@ import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import TimeAgo from 'react-timeago';
+import Cookies from 'universal-cookie';
 import { setMessages } from '../../../../store/Messages/actions';
 import { authPost } from './../../../../__lib__/helpers/HttpService';
-
 const MessageCard = ({ messages }) => {
 
-
+    const cookies = new Cookies();
     const { id, name, email, message, created_at } = messages
     const [showMessage, setShowMessage] = useState(false)
     const { admins } = useSelector(state => state)
     const dispatch = useDispatch()
     const deleteMessage = () => {
-        authPost(`/contact/${id}`, {}, admins.token)
+        authPost(`/contact/${id}`, {}, cookies.get('_token'))
             .then(res => {
                 // toast.success('Message deleted successfully.')
                 dispatch(setMessages(admins.token))

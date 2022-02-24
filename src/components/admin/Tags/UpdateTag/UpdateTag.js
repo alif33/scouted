@@ -3,12 +3,14 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";
+import Cookies from 'universal-cookie';
 import { modalToggle } from '../../../../../store/settings/actions';
 import { setTags } from '../../../../../store/tags/actions';
 import { updateData } from '../../../../../__lib__/helpers/HttpService';
 import Modals from '../../Modal/Modals';
-
 const UpdateTag = (props) => {
+
+    const cookies = new Cookies();
     const { tag_name, id } = props.currentData;
     const { setCurrentData } = props;
     const dispatch = useDispatch()
@@ -22,7 +24,7 @@ const UpdateTag = (props) => {
     const onSubmit = async data => {
         setDisable(true)
         if (data) {
-            updateData(`tag/${id}}`, data, admins.token)
+            updateData(`tag/${id}}`, data, cookies.get('_token'))
                 .then(res => {
                     if (res.success) {
                         toast.success(res.message)

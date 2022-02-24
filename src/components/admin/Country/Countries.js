@@ -59,13 +59,13 @@ const Countries = () => {
                 {!isLoading && countryList.length > 0 && <>
                     <div className="d-flex justify-content-between py-5 ">
                         <h1 className="mt-3">All Countries</h1>
-                        <button onClick={() => {
+                        {/* <button onClick={() => {
                             dispatch(modalToggle(settings.modal))
                             setTrigger(true)
                         }}
                             className="btn btn-primary">
                             Add
-                        </button>
+                        </button> */}
                     </div>
                     <div className="t_table_content-wrapper">
                         <div className="table-responsive">

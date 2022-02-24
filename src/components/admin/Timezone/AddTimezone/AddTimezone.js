@@ -3,14 +3,14 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";
+import Cookies from 'universal-cookie';
 import { setCountries } from '../../../../../store/countries/actions';
 import { modalToggle } from '../../../../../store/settings/actions';
 import { authPost } from '../../../../../__lib__/helpers/HttpService';
 import Modals from '../../Modal/Modals';
 
-
-
 const AddTimezone = () => {
+    const cookies = new Cookies();
     const dispatch = useDispatch()
     const { admins, settings, countries } = useSelector(state => state)
     const [disable, setDisable] = useState(false)
@@ -25,7 +25,7 @@ const AddTimezone = () => {
     const onSubmit = async data => {
         setDisable(true)
         if (data) {
-            authPost(`/timezone/${1}`, data, admins.token)
+            authPost(`/timezone/${1}`, data, cookies.get('_token'))
                 .then(res => {
                     if (res.success) {
                         toast.success(res.message)

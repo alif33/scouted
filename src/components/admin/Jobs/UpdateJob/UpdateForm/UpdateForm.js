@@ -7,10 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { BeatLoader } from 'react-spinners';
 import 'suneditor/dist/css/suneditor.min.css';
+import Cookies from 'universal-cookie';
 import { setCountries } from '../../../../../../store/countries/actions';
 import { setTags } from '../../../../../../store/tags/actions';
 import { authPost, getData } from './../../../../../../__lib__/helpers/HttpService';
 import stylesClass from './UpdateForm.module.css';
+
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
     ssr: false,
@@ -21,6 +23,7 @@ const SunEditor = dynamic(() => import("suneditor-react"), {
 const jobType = [{ id: 1, value: 'full', label: 'Full time' }, { id: 2, value: 'part', label: 'Part time' }, { id: 3, value: 'any', label: 'Others' }]
 
 const UpdateForm = () => {
+    const cookies = new Cookies();
     const [details, setDetails] = useState()
     const [disable, setDisable] = useState(false)
     const [loading, setLoading] = useState(true);
@@ -126,7 +129,7 @@ const UpdateForm = () => {
         for (let i = 0; i < selectTags?.length; i++) {
             formData.append('tags[]', selectTags[i].value || tags)
         }
-        authPost(`/job/u/${job.id}`, formData, admins.token)
+        authPost(`/job/u/${job.id}`, formData, cookies.get('_token'))
             .then(res => {
                 if (res.success) {
                     console.log(res)

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";
+import Cookies from 'universal-cookie';
 import { setCountries } from '../../../../../store/countries/actions';
 import { modalToggle } from '../../../../../store/settings/actions';
 import { updateData } from '../../../../../__lib__/helpers/HttpService';
@@ -10,6 +11,7 @@ import Modals from '../../Modal/Modals';
 import { setStates } from './../../../../../store/states/actions';
 
 const UpdateState = (props) => {
+    const cookies = new Cookies();
     const { state_name, id, country_id } = props.currentData;
     const { setCurrentData } = props;
     const dispatch = useDispatch()
@@ -28,7 +30,7 @@ const UpdateState = (props) => {
     const onSubmit = async data => {
         setDisable(true)
         if (data) {
-            updateData(`state/${id}`, data, admins.token)
+            updateData(`state/${id}`, data, cookies.get('_token'))
                 .then(res => {
                     if (res.success) {
                         toast.success(res.message)

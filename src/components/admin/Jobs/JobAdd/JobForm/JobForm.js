@@ -6,17 +6,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { BeatLoader } from 'react-spinners';
 import 'suneditor/dist/css/suneditor.min.css';
+import Cookies from 'universal-cookie';
 import { setCountries } from '../../../../../../store/countries/actions';
 import { setTags } from '../../../../../../store/tags/actions';
 import { authPost, getData } from './../../../../../../__lib__/helpers/HttpService';
 import stylesClass from './JobForm.module.css';
-
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
     ssr: false,
 })
 
 const JobForm = () => {
+
+    const cookies = new Cookies();
     const [details, setDetails] = useState()
     const [disable, setDisable] = useState(false)
     const [loading, setLoading] = useState(true);
@@ -113,7 +115,7 @@ const JobForm = () => {
             formData.append('tags[]', selectTags[i].value)
         }
         if (details.length <= 10000) {
-            authPost('/job', formData, admins.token)
+            authPost('/job', formData, cookies.get('_token'))
                 .then(res => {
                     if (res.success) {
                         toast.success(res.message)
@@ -241,7 +243,7 @@ const JobForm = () => {
                                         name="max_salary"
                                         onChange={handleForm}
                                         className="form-control"
-                                        placeholder="Job title here"
+                                        placeholder="Max Salary"
                                         style={{ paddingLeft: '30px' }}
                                     />
                                 </div>
@@ -257,7 +259,7 @@ const JobForm = () => {
                                         name="min_salary"
                                         onChange={handleForm}
                                         className="form-control"
-                                        placeholder="Job title here"
+                                        placeholder="Min Salary"
                                         style={{ paddingLeft: '30px' }}
                                     />
 
@@ -429,7 +431,7 @@ const JobForm = () => {
                                     <i className="fas fa-flag"></i>
                                 </span>
                                 <select
-
+                                    required
                                     onChange={handleForm}
                                     name='job_type'
                                     type='select'
@@ -453,7 +455,7 @@ const JobForm = () => {
                                     <i className="fas fa-flag"></i>
                                 </span>
                                 <select
-
+                                required
                                     onChange={handleForm}
                                     name='country_id'
                                     type='select'

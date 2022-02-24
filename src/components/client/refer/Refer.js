@@ -5,12 +5,16 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from 'react-redux';
 import { BeatLoader } from "react-spinners";
+import Cookies from 'universal-cookie';
 import { getData } from "../../../../__lib__/helpers/HttpService";
 import Layout from "../layout";
 import { authPost } from './../../../../__lib__/helpers/HttpService';
 import Styles from './Refer.module.css';
 
+
+
 const Refer = () => {
+    const cookies = new Cookies();
     const router = useRouter()
     const { query } = router
     const [loading, setLoading] = useState(true);
@@ -35,7 +39,7 @@ const Refer = () => {
     const onSubmit = data => {
         setDisable(true)
         if (users.isUser) {
-            authPost(`/refer/${job.id}`, data, users.token)
+            authPost(`/refer/${job.id}`, data, cookies.get('user_token'))
                 .then(res => {
                     if (res.success) {
                         toast.success(res.message)

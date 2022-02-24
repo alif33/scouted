@@ -4,8 +4,11 @@ import { useForm } from 'react-hook-form';
 import { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { BeatLoader } from 'react-spinners';
+import Cookies from 'universal-cookie';
 import { getData } from '../../../../../../__lib__/helpers/HttpService';
+
 const UpdateForm = () => {
+    const cookies = new Cookies();
     const queryString = require('query-string');
     const [disable, setDisable] = useState(false)
     const [loading, setLoading] = useState(true);
@@ -89,7 +92,7 @@ const UpdateForm = () => {
 
     const submitData = async data => {
         setDisable(true)
-        authPost(`/company/u/ ${company.id}`, data, admins.token)
+        authPost(`/company/u/ ${company.id}`, data, cookies.get('_token'))
 
             .then(res => {
                 if (res.success) {
