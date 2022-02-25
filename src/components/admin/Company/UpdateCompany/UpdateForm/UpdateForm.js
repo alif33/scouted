@@ -64,10 +64,9 @@ const UpdateForm = () => {
     // }
 
     const onSubmit = async data => {
-        console.log(data.company_logo[0])
 
         setDisable(true)
-        const formData = new FormData()
+        const formData = await new FormData()
 
         formData.append('company_name', data.company_name || company.company_name)
         formData.append('company_description', data.company_description || company.company_description)
@@ -92,7 +91,9 @@ const UpdateForm = () => {
 
     const submitData = async data => {
         setDisable(true)
-        authPost(`/company/u/ ${company.id}`, data, cookies.get('_token'))
+
+        const _token = await cookies.get('_token')
+        authPost(`/company/u/ ${company.id}`, data, _token)
 
             .then(res => {
                 if (res.success) {

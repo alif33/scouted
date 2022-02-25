@@ -103,12 +103,11 @@ const UpdateForm = () => {
         setSelectTags(e)
     }
 
-    console.log(search.company_name)
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault()
         setDisable(true)
-        const formData = new FormData()
+        const formData = await new FormData()
         formData.append('company_id', search.id || company.id)
         formData.append('job_title', handleFormData.job_title || job.job_title)
         formData.append('job_description', details || job.job_description)
@@ -129,7 +128,10 @@ const UpdateForm = () => {
         for (let i = 0; i < selectTags?.length; i++) {
             formData.append('tags[]', selectTags[i].value || tags)
         }
-        authPost(`/job/u/${job.id}`, formData, cookies.get('_token'))
+
+        const _token = await cookies.get('_token')
+
+        authPost(`/job/u/${job.id}`, formData, _token)
             .then(res => {
                 if (res.success) {
                     console.log(res)

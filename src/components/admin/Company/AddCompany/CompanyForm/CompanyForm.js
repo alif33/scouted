@@ -24,7 +24,6 @@ const CompanyForm = () => {
     const { admins, countries } = useSelector(state => state)
     const dispatch = useDispatch()
     const { register, watch, handleSubmit, formState: { errors }, reset } = useForm()
-    // console.log(cookies.get('_token'))
     const { countryList, isLoading } = countries
 
     useEffect(() => {
@@ -69,7 +68,10 @@ const CompanyForm = () => {
 
     const submitData = async data => {
         setDisable(true)
-        authPost('/company', data, cookies.get('_token'))
+
+        const _token = await cookies.get('_token')
+
+        authPost('/company', data, _token)
             .then(res => {
                 if (res.success) {
                     toast.success(res.message)
@@ -87,12 +89,8 @@ const CompanyForm = () => {
         marginLeft: '12px',
     }
 
-
-
-
     return (
         <>
-
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
                     <div className='row'>

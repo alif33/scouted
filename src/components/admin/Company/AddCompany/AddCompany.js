@@ -18,7 +18,6 @@ const AddCompanies = () => {
                                 <Image src={companiesIcon} width='50px' height='45px' alt="img/png" />
 
                             </div>
-                            {/* <img src={companiesIcon} alt="" /> */}
                             <h1 style={{ marginTop: '15px' }}>Update Company</h1>
                         </div>
 

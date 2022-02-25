@@ -88,11 +88,11 @@ const JobForm = () => {
         console.log(e)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault()
         setDisable(true)
-        const formData = new FormData()
+        const formData = await new FormData()
         formData.append('company_id', search.id)
         formData.append('job_title', handleFormData.job_title)
         formData.append('job_salary', handleFormData.job_salary)
@@ -114,8 +114,11 @@ const JobForm = () => {
         for (let i = 0; i < selectTags?.length; i++) {
             formData.append('tags[]', selectTags[i].value)
         }
+
+        const _token = await cookies.get('_token')
+
         if (details.length <= 10000) {
-            authPost('/job', formData, cookies.get('_token'))
+            authPost('/job', formData, _token)
                 .then(res => {
                     if (res.success) {
                         toast.success(res.message)
@@ -455,7 +458,7 @@ const JobForm = () => {
                                     <i className="fas fa-flag"></i>
                                 </span>
                                 <select
-                                required
+                                    required
                                     onChange={handleForm}
                                     name='country_id'
                                     type='select'
