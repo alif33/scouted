@@ -42,7 +42,6 @@ const UpdateForm = () => {
     const [hourly, setHourly] = useState(false)
     const router = useRouter()
     const { job, referars, country, company, state, previousTags } = JSON.parse(router.query.nested);
-    // console.log(country)
 
     const tagDefault = previousTags?.map(tag => ({
         label: tag.tag_name,
@@ -69,7 +68,6 @@ const UpdateForm = () => {
         if (countryList?.length > 0) {
             const zones = countryList.find((item, i) => item.id == handleFormData.country_id && item)
             if (zones) {
-                console.log(zones)
                 setTimezones(JSON.parse(zones?.timezones))
             }
         }
