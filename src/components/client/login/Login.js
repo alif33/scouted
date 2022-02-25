@@ -19,11 +19,11 @@ export default function Login() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const router = useRouter()
   const dispatch = useDispatch()
-  const onSubmit = data => {
+  const onSubmit =  data => {
 
     setDisable(true)
 
-    postData('/user/login', data, setDisable)
+  postData('/user/login', data, setDisable)
       .then(res => {
         if (res?.success) {
           cookies.set("user_token", res.token, { path: '/' })

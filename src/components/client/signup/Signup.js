@@ -38,9 +38,8 @@ export default function Signup() {
   const [disable, setDisable] = useState(false)
   const router = useRouter()
   const { register, handleSubmit, watch, formState: { errors } } = useForm(formOptions);
-  const onSubmit = data => {
+  const onSubmit =  data => {
     setDisable(true)
-
     postData('/user/register', data, setDisable)
       .then(res => {
         if (res?.user) {

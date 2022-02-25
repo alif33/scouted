@@ -31,15 +31,15 @@ const Refer = () => {
                 setJob(res)
             })
     }, [query.company_slug, query.job_slug])
-
-
-
+ 
 
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
-    const onSubmit = data => {
+    const onSubmit = async data => {
         setDisable(true)
+        const _token = await cookies.get('user_token')
+       
         if (users.isUser) {
-            authPost(`/refer/${job.id}`, data, cookies.get('user_token'))
+          authPost(`/refer/${job.id}`, data, _token)
                 .then(res => {
                     if (res.success) {
                         toast.success(res.message)

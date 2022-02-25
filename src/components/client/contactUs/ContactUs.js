@@ -6,14 +6,17 @@ import { BeatLoader } from 'react-spinners';
 import { postData } from '../../../../__lib__/helpers/HttpService';
 import Layout from './../layout/index';
 import styles from './ContactUs.module.css';
+import Cookies from 'universal-cookie';
+
+
 const ContactUs = () => {
     const [loading, setLoading] = useState(true);
     const [color, setColor] = useState("#ffffff");
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
     const [disable, setDisable] = useState(false)
-    const onSubmit = data => {
+    const onSubmit = async data => {
         setDisable(true)
-        postData('/contact', data, setDisable)
+       await postData('/contact', data, setDisable)
             .then(res => {
                 if (res.success) {
                     toast.success(res.message)

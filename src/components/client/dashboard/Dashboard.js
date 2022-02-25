@@ -4,8 +4,10 @@ import { ScaleLoader } from 'react-spinners';
 import { getUserData } from '../../../../__lib__/helpers/HttpService';
 import Layout from '../layout';
 import JobTable from './JobTable';
+import Cookies from 'universal-cookie';
 
 const Dashboard = () => {
+    const cookies = new Cookies();
     const [loading, setLoading] = useState(true);
     const [color, setColor] = useState("#36d7b7");
     const dispatch = useDispatch()
@@ -13,14 +15,13 @@ const Dashboard = () => {
     const [jobs, setJobs] = useState([])
 
     useEffect(() => {
-        getUserData('/refer/jobs', users.token)
+        getUserData('/refer/jobs', cookies.get('user_token'))
             .then(res => {
                 setLoading(false)
                 setJobs(res)
 
             })
     }, [])
-    console.log(jobs)
     return (
         <>
             <Layout>

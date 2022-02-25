@@ -15,9 +15,9 @@ const ContactUs = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
+    const onSubmit = async data => {
         setDisable(true)
-        postData('/contact', data, setDisable)
+        await postData('/contact', data, setDisable)
             .then(res => {
                 if (res.success) {
                     toast.success(res.message)

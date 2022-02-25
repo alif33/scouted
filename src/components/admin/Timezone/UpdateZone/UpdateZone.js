@@ -10,6 +10,7 @@ import { updateData } from '../../../../../__lib__/helpers/HttpService';
 import Modals from '../../Modal/Modals';
 
 const UpdateZone = (props) => {
+    const cookies = new Cookies();
     const { _zone_name_, id, country_id } = props.currentData;
     const { setCurrentData } = props;
     const dispatch = useDispatch()
@@ -28,7 +29,7 @@ const UpdateZone = (props) => {
     const onSubmit = async data => {
         setDisable(true)
         if (data) {
-            updateData(`timezone/${id}`, data, admins.token)
+          updateData(`timezone/${id}`, data, cookies.get('_token'))
                 .then(res => {
                     if (res.success) {
                         toast.success(res.message)

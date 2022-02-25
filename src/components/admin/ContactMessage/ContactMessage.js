@@ -4,8 +4,10 @@ import { ScaleLoader } from 'react-spinners';
 import { setMessages } from '../../../../store/Messages/actions';
 import Layout from '../Layout/Layout';
 import MessageCard from './MessageCard';
+import Cookies from 'universal-cookie';
 
 const ContactMessage = () => {
+    
     const [loading, setLoading] = useState(true);
     const [color, setColor] = useState("#36d7b7");
     const [hideMessage, setHideMessage] = useState(false)
@@ -13,8 +15,9 @@ const ContactMessage = () => {
     // const { messages } = useSelector(state => state)
     const { admins, messages } = useSelector(state => state)
     const [isLoading, setIsLoading] = useState(true)
+    const cookies = new Cookies();
     useEffect(() => {
-        dispatch(setMessages(admins.token))
+        dispatch(setMessages(cookies.get('_token')))
         setIsLoading(false)
     }, [])
     return (
